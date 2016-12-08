@@ -117,7 +117,7 @@ app.delete("/contacts/:id", function(req, res) {
  *    DELETE: deletes contact by id
  */
 
-app.get("/contacts/:firstName", function(req, res) {
+app.get("/contacts/:id", function(req, res) {
   db.collection(CONTACTS_COLLECTION).findOne({ firstName: new ObjectID(req.params.id) }, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to get contact");
@@ -127,7 +127,7 @@ app.get("/contacts/:firstName", function(req, res) {
   });
 });
 
-app.put("/contacts/:firstName", function(req, res) {
+app.put("/contacts/:id", function(req, res) {
   var updateDoc = req.body;
   delete updateDoc.firstName;
 
@@ -140,7 +140,7 @@ app.put("/contacts/:firstName", function(req, res) {
   });
 });
 
-app.delete("/contacts/:firstName", function(req, res) {
+app.delete("/contacts/:id", function(req, res) {
   db.collection(CONTACTS_COLLECTION).deleteOne({firstName: new ObjectID(req.params.firstName)}, function(err, result) {
     if (err) {
       handleError(res, err.message, "Failed to delete contact");

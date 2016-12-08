@@ -109,3 +109,43 @@ app.delete("/contacts/:id", function(req, res) {
     }
   });
 });
+
+
+/*  "/contacts/:id"
+ *    GET: find contact by id
+ *    PUT: update contact by id
+ *    DELETE: deletes contact by id
+ */
+
+app.get("/contacts/:firstName", function(req, res) {
+  db.collection(CONTACTS_COLLECTION).findOne({ firstName: new ObjectID(req.params.id) }, function(err, doc) {
+    if (err) {
+      handleError(res, err.message, "Failed to get contact");
+    } else {
+      res.status(200).json(doc);
+    }
+  });
+});
+
+app.put("/contacts/:firstName", function(req, res) {
+  var updateDoc = req.body;
+  delete updateDoc.firstName;
+
+  db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+    if (err) {
+      handleError(res, err.message, "Failed to update contact");
+    } else {
+      res.status(204).end();
+    }
+  });
+});
+
+app.delete("/contacts/:firstName", function(req, res) {
+  db.collection(CONTACTS_COLLECTION).deleteOne({firstName: new ObjectID(req.params.firstName)}, function(err, result) {
+    if (err) {
+      handleError(res, err.message, "Failed to delete contact");
+    } else {
+      res.status(204).end();
+    }
+  });
+});
